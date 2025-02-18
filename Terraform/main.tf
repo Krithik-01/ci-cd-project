@@ -1,7 +1,5 @@
 provider "aws" {
   region     = var.aws_region
-  access_key = ""
-  secret_key = ""
 }
 
 resource "aws_instance" "react_app" {
@@ -12,14 +10,7 @@ resource "aws_instance" "react_app" {
     Name = "ReactAppInstance"
   }
 
-  # User data to install Docker (optional if not already installed)
-  user_data = <<-EOF
-              #!/bin/bash
-              apt update -y
-              apt install -y docker.io
-              systemctl start docker
-              systemctl enable docker
-              EOF
+
 }
 
 resource "aws_security_group" "dev-sg" {
@@ -34,8 +25,8 @@ resource "aws_security_group" "dev-sg" {
   }
 
   ingress {
-    from_port   = 8000
-    to_port     = 8000
+    from_port   = 80
+    to_port     = 80
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
   }
