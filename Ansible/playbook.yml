@@ -1,1 +1,69 @@
+---
+- name: Install Docker and Deploy React App
+  hosts: ec2
+  become: true
+  vars:
+    docker_image: "react-app"  # This will be the Docker image name built in Jenkins
+    docker_image_tar: "/tmp/react-app.tar"  # Temporary path to save Docker image tarball
+
+  tasks:
+    - name: Update apt cache
+      apt:
+        update_cache: yes
+
+    - name: Install required dependencies
+      apt:
+        name:
+          - apt-transport-https
+          - ca-certificates
+          - curl
+          - gnupg
+          - lsb-release
+        state: present
+
+    - name: Add Docker’s official GPG key
+      apt_key:
+        url: https://download.docker.com/linux/ubuntu/gpg
+        state: present
+
+    - name: Get the Ubuntu release codename
+      command: lsb_release -cs
+      register: release_codename
+      changed_when: false
+
+    - name: Add Docker repository
+      apt_repository:
+        repo: "deb [arch=amd64] https://download.docker.com/linux/ubuntu {{ release_codename.stdout }} stable"
+        state: present
+
+    - name: Install Docker
+      apt:
+        name: docker-ce
+        state: present
+
+    - name: Start Docker service
+      service:
+        name: docker
+        state: started
+        enabled: yes
+
+    # Step to copy the Docker image tarball from Jenkins to the EC2 instance
+    - name: Copy Docker image tarball from Jenkins to EC2
+      copy:
+        src: "/tmp/react-app.tar"  # The image tarball from Jenkins server (you should have this in Jenkins)
+        dest: "{{ docker_image_tar }}"
+
+    # Step to load the Docker image on EC2 instance
+    - name: Load Docker image from tarball
+      command: docker load -i {{ docker_image_tar }}
+
+    # Step to run Docker container for React App
+    - name: Run Docker container for React App
+      docker_container:
+        name: react-app
+        image: "{{ docker_image }}"
+        state: started
+        restart_policy: always
+        published_ports:
+          - "80:80"
 
