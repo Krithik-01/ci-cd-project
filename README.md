@@ -1,70 +1,46 @@
-# Getting Started with Create React App
+# Automated CI/CD Pipeline for React App Deployment on AWS EC2 using Jenkins, Docker, Terraform, and Ansible
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This project demonstrates the implementation of a Continuous Integration (CI) and Continuous Deployment (CD) pipeline for deploying a React-based Todo app to an AWS EC2 instance using **Jenkins**. The pipeline automates the process of building, testing, and deploying the app using Docker, Terraform, and Ansible. 
 
-## Available Scripts
+---
 
-In the project directory, you can run:
+## Project Overview
 
-### `npm start`
+This project automates the CI/CD process for a React-based Todo app by leveraging Jenkins to manage the entire pipeline. The pipeline performs the following steps:
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+1. **Code Pull**: The latest version of the React Todo app is pulled from the GitHub repository.
+2. **Docker Image Build & Test**: The app is containerized using Docker, and the Docker image is built and tested.
+3. **Terraform Infrastructure Provisioning**: Terraform is used to provision an AWS EC2 instance for hosting the app.
+4. **Ansible Configuration**: Ansible is used to install Docker on the EC2 instance, copy the necessary app files, and run the Docker container.
+5. **App Deployment**: Once the infrastructure is provisioned and configured, the Todo app is deployed, and it can be accessed via the public IP of the EC2 instance.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+---
 
-### `npm test`
+## Technologies Used
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+- **Jenkins**: Automates the entire CI/CD pipeline.
+- **React**: Frontend framework for building the Todo app.
+- **Docker**: Containerization of the React app for deployment.
+- **Terraform**: Provisioning AWS EC2 instance for the app infrastructure.
+- **Ansible**: Configuring the EC2 instance, installing Docker, and deploying the app.
+- **AWS EC2**: Cloud infrastructure for hosting the React Todo app.
 
-### `npm run build`
+---
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## Pipeline Workflow
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+The pipeline automates the following steps:
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+1. **GitHub Action Trigger**: A push to the GitHub repository triggers the Jenkins pipeline.
+2. **Docker Build & Test**: Jenkins builds the Docker image and runs tests to ensure the app works as expected.
+3. **Terraform Integration**: Terraform provisions the required AWS EC2 instance with necessary resources (e.g., security groups, instance configurations).
+4. **Ansible Deployment**: Ansible installs Docker on the EC2 instance, copies the required app files, and starts the Docker container.
+5. **Access the Application**: Once deployed, the Todo app is accessible via the public IP of the EC2 instance.
 
-### `npm run eject`
+---
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+## Access the Application
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+Once the CI/CD pipeline has successfully run, you can view the deployed Todo app by navigating to the public IP address of the AWS EC2 instance in your web browser.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
